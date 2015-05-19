@@ -28,12 +28,12 @@
 
 using namespace std;
 
-enum code {
+enum Code {
     O,
     H
 };
 
-enum op {
+enum Op {
     Add1 = 1,
     Add0 = 2,
     Inc = 3,
@@ -41,20 +41,20 @@ enum op {
     Case = 5
 };
 
-struct instr {
-    op o;
+struct Instr {
+    Op o;
     int n;
 };
 
-vector< instr > program;
-map< int, queue<code> > mem;
+vector< Instr > program;
+map< int, queue<Code> > mem;
 
-void push(int i, code c) {
+void push(int i, Code c) {
     mem[i].push(c);
 }
 
 int cases(int i) {
-    queue<code>& Rn = mem[i];
+    queue<Code>& Rn = mem[i];
     if (Rn.empty()) {
         return 1;
     } else if (Rn.front() == O) {
@@ -67,11 +67,11 @@ int cases(int i) {
 }
 
 void print_registers() {
-    for (map< int, queue<code> >::iterator it=mem.begin(); it != mem.end(); it++) {
+    for (map< int, queue<Code> >::iterator it=mem.begin(); it != mem.end(); it++) {
         cout << "R" << it->first << ":";
-        queue<code> content = it->second;
+        queue<Code> content = it->second;
         while (content.empty() == false) {
-            code c = content.front();
+            Code c = content.front();
             content.pop();
             if (c == O) {
                 cout << "1";
@@ -83,7 +83,7 @@ void print_registers() {
     }
 }
 
-string op2string(op o) {
+string op2string(Op o) {
     switch (o) {
         case Add1: return "Add1";
         case Add0: return "Add#";
@@ -93,7 +93,7 @@ string op2string(op o) {
     }
 }
 
-string instr2string(instr in) {
+string instr2string(Instr in) {
      return op2string(in.o) + " " + to_string(in.n);
 }
     
@@ -105,7 +105,7 @@ void print_program() {
 
 void eval(int pc) {
     while (pc < program.size()) {
-        instr in = program[pc];
+        Instr in = program[pc];
         //cout << "pc:" + to_string(pc) + " " + "instr: " + instr2string(in) << endl;
         switch (in.o) {
             case Add1:
@@ -137,26 +137,23 @@ void load_program() {
     cin.sync_with_stdio(false);
     
     char curr;
-    instr in;
 
-    in.n = 0;
+    int n = 0;
     int c = 0;
     
     while (cin >> curr) {
         if (curr == '1') {
             if (c > 0) {
-                in.o = (op)c;
-                program.push_back(in);
-                in.n = 0;
+                program.push_back({(Op)c, n});
+                n = 0;
                 c = 0;
             }
-            in.n++;
+            n++;
         } else if (curr == '#') {
             c++;
         }
     }
-    in.o = (op)c;
-    program.push_back(in);
+    program.push_back({(Op)c, n});
 }
 
 int main() {

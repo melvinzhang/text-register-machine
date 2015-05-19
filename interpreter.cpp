@@ -36,8 +36,8 @@ enum Code {
 enum Op {
     Add1 = 1,
     Add0 = 2,
-    Inc = 3,
-    Dec = 4,
+    Inc  = 3,
+    Dec  = 4,
     Case = 5
 };
 

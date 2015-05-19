@@ -42,7 +42,7 @@ enum Op {
 };
 
 struct Instr {
-    Op o;
+    Op op;
     int n;
 };
 
@@ -94,7 +94,7 @@ string op2string(Op o) {
 }
 
 string instr2string(Instr in) {
-     return op2string(in.o) + " " + to_string(in.n);
+     return op2string(in.op) + " " + to_string(in.n);
 }
     
 void print_program() {
@@ -107,7 +107,7 @@ void eval(int pc) {
     while (pc < program.size()) {
         Instr in = program[pc];
         //cout << "pc:" + to_string(pc) + " " + "instr: " + instr2string(in) << endl;
-        switch (in.o) {
+        switch (in.op) {
             case Add1:
                 push(in.n, O);
                 pc++;
@@ -153,7 +153,7 @@ void load_program() {
             if (c == 1) {
                 program.push_back({Add1, n});
             } else {
-                program.back().o = (Op)c;
+                program.back().op = (Op)c;
             }
         }
     }

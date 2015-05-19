@@ -144,16 +144,19 @@ void load_program() {
     while (cin >> curr) {
         if (curr == '1') {
             if (c > 0) {
-                program.push_back({(Op)c, n});
                 n = 0;
                 c = 0;
             }
             n++;
         } else if (curr == '#') {
             c++;
+            if (c == 1) {
+                program.push_back({Add1, n});
+            } else {
+                program.back().o = (Op)c;
+            }
         }
     }
-    program.push_back({(Op)c, n});
 }
 
 int main() {

@@ -21,9 +21,10 @@
  */
 
 #include <iostream>
-#include <map>
-#include <queue>
 #include <string>
+#include <map>
+#include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -45,7 +46,7 @@ struct instr {
     int n;
 };
 
-map< int, instr > program;
+vector< instr > program;
 map< int, queue<code> > mem;
 
 void push(int i, code c) {
@@ -78,7 +79,7 @@ void print_registers() {
                 cout << "#";
             }
         }
-        cout << "\n";
+        cout << endl;
     }
 }
 
@@ -97,15 +98,15 @@ string instr2string(instr in) {
 }
     
 void print_program() {
-    for (map< int, instr >::iterator it = program.begin(); it != program.end(); it++) {
-        cout << it->first << ":"  << instr2string(it->second) << "\n";
+    for ( auto &p : program) {
+        cout << instr2string(p) << endl;
     }
 }
 
 void eval(int pc) {
-    while (program.count(pc)) {
+    while (pc < program.size()) {
         instr in = program[pc];
-        //cout << "pc:" + to_string(pc) + " " + "instr: " + instr2string(in) << "\n";
+        //cout << "pc:" + to_string(pc) + " " + "instr: " + instr2string(in) << endl;
         switch (in.o) {
             case Add1:
                 push(in.n, O);
@@ -145,7 +146,7 @@ void load_program() {
         if (curr == '1') {
             if (c > 0) {
                 in.o = (op)c;
-                program[ program.size() + 1 ] = in;
+                program.push_back(in);
                 in.n = 0;
                 c = 0;
             }
@@ -155,13 +156,13 @@ void load_program() {
         }
     }
     in.o = (op)c;
-    program[ program.size() + 1 ] = in;
+    program.push_back(in);
 }
 
 int main() {
     load_program();
     //print_program();
-    eval(1);
+    eval(0);
     print_registers();
     return 0;
 }

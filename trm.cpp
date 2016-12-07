@@ -72,6 +72,7 @@ struct TRM {
     int print_registers() {
         int lines = 0;
         for (map< int, queue<Code> >::iterator it=mem.begin(); it != mem.end(); it++) {
+            int col = 3;
             cout << "R" << it->first << ":";
             queue<Code> content = it->second;
             while (content.empty() == false) {
@@ -81,6 +82,13 @@ struct TRM {
                     cout << "1";
                 } else {
                     cout << "#";
+                }
+                col++;
+                if (col == 80) {
+                    cout << endl;
+                    cout << "   ";
+                    col = 3;
+                    lines++;
                 }
             }
             cout << endl;

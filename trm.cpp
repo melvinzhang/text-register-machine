@@ -72,8 +72,8 @@ struct TRM {
     int print_registers() {
         int lines = 0;
         for (map< int, queue<Code> >::iterator it=mem.begin(); it != mem.end(); it++) {
-            int col = 3;
-            cout << "R" << it->first << ":";
+            int col = 4;
+            cout << "R" << it->first << ": ";
             queue<Code> content = it->second;
             while (content.empty() == false) {
                 Code c = content.front();
@@ -86,8 +86,8 @@ struct TRM {
                 col++;
                 if (col == 80) {
                     cout << endl;
-                    cout << "   ";
-                    col = 3;
+                    cout << "    ";
+                    col = 4;
                     lines++;
                 }
             }
@@ -158,7 +158,7 @@ struct TRM {
             if (cnt > 1 && fps > 0) {
                 clear_previous(lines + 1, fps);
             }
-            cout << "instr: " + instr2string(in) << endl;
+            cout << "IN: " + instr2string(in) << endl;
             lines = print_registers();
         }
         cout << "Done. Took " << cnt << " cycles.\n";

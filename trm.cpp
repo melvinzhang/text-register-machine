@@ -161,6 +161,7 @@ struct TRM {
             cout << "instr: " + instr2string(in) << endl;
             lines = print_registers();
         }
+        cout << "Done. Took " << cnt << " cycles.\n";
     }
 
     void load_program() {

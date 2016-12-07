@@ -129,7 +129,7 @@ struct TRM {
         int lines = 0;
         int cnt = 0;
         int pc = 0;
-        while (pc < program.size()) {
+        while (pc < program.size() && cnt < max) {
             Instr in = program[pc];
             switch (in.op) {
                 case Add1:

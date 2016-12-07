@@ -25,6 +25,8 @@
 #include <map>
 #include <vector>
 #include <queue>
+#include <thread>
+#include <chrono>
 
 using namespace std;
 
@@ -67,7 +69,8 @@ struct TRM {
         }
     }
 
-    void print_registers() {
+    int print_registers() {
+        int lines = 0;
         for (map< int, queue<Code> >::iterator it=mem.begin(); it != mem.end(); it++) {
             cout << "R" << it->first << ":";
             queue<Code> content = it->second;
@@ -81,6 +84,16 @@ struct TRM {
                 }
             }
             cout << endl;
+            lines++;
+        }
+        return lines;
+    }
+
+    void clear_previous(int lines, int fps) {
+        this_thread::sleep_for(chrono::microseconds(1000000 / fps));
+        for (int i = 0; i < lines; i++) {
+            cout << "\x1B[1A"; // Move the cursor up one line
+            cout << "\x1B[2K"; // Erase the entire current line
         }
     }
 
@@ -97,17 +110,19 @@ struct TRM {
     string instr2string(Instr in) {
          return op2string(in.op) + " " + to_string(in.n);
     }
-        
+
     void print_program() {
         for ( auto &p : program) {
             cout << instr2string(p) << endl;
         }
     }
 
-    void eval(int pc) {
+    void eval(int max, int fps) {
+        int lines = 0;
+        int cnt = 0;
+        int pc = 0;
         while (pc < program.size()) {
             Instr in = program[pc];
-            //cout << "pc:" + to_string(pc) + " " + "instr: " + instr2string(in) << endl;
             switch (in.op) {
                 case Add1:
                     push(in.n, O);
@@ -131,17 +146,23 @@ struct TRM {
                     pc += cases(in.n);
                     break;
             }
+            cnt++;
+            if (cnt > 1 && fps > 0) {
+                clear_previous(lines + 1, fps);
+            }
+            cout << "instr: " + instr2string(in) << endl;
+            lines = print_registers();
         }
     }
-        
+
     void load_program() {
         cin.sync_with_stdio(false);
-        
+
         char curr;
 
         int n = 0;
         int c = 0;
-        
+
         while (cin >> curr) {
             if (curr == '1') {
                 if (c > 0) {
@@ -161,13 +182,17 @@ struct TRM {
     }
 };
 
-
-
-int main() {
+int main(int argc, char *argv[]) {
     TRM m;
     m.load_program();
     m.print_program();
-    m.eval(0);
-    m.print_registers();
+    cout << endl;
+    if (argc == 1) {
+        m.eval(1000, 0);
+    } else if (argc == 2) {
+        m.eval(atoi(argv[1]), 0);
+    } else if (argc == 3) {
+        m.eval(atoi(argv[1]), atoi(argv[2]));
+    }
     return 0;
 }

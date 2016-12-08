@@ -1,6 +1,6 @@
 # Text Register Machine Emulator
 
-A Text Register Machine emulator written in C++ 11
+A Text Register Machine emulator written in C++ 11. It is based on the 1# language introduced in [Introduction to Computability Theory by Lawrence S. Moss](http://www.indiana.edu/~iulg/trm/)
 
 ## Building the binary
 

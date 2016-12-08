@@ -69,8 +69,9 @@ struct TRM {
         }
     }
 
-    int print_registers() {
-        int lines = 0;
+    int print_state(Instr in) {
+        cerr << "IN: " + instr2string(in) << endl;
+        int lines = 1;
         for (map< int, queue<Code> >::iterator it=mem.begin(); it != mem.end(); it++) {
             int col = 4;
             cerr << "R" << it->first << ": ";
@@ -170,10 +171,9 @@ struct TRM {
             }
             cnt++;
             if (cnt > 1 && fps > 0) {
-                clear_previous(lines + 1, fps);
+                clear_previous(lines, fps);
             }
-            cerr << "IN: " + instr2string(in) << endl;
-            lines = print_registers();
+            lines = print_state(in);
         }
         cerr << endl;
         cerr << "Done. Executed " << cnt << " instructions.\n";

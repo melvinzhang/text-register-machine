@@ -201,6 +201,21 @@ struct TRM {
                 } else {
                     program.back().op = (Op)c;
                 }
+            } else if (curr == 'R') {
+                load_data(1);
+            }
+        }
+    }
+
+    void load_data(int r) {
+        char curr;
+        while (cin >> curr) {
+            if (curr == '1') {
+                push(r, O);
+            } else if (curr == '#') {
+                push(r, H);
+            } else if (curr == 'R') {
+                load_data(r+1);
             }
         }
     }

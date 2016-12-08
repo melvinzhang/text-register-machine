@@ -173,7 +173,9 @@ struct TRM {
             if (cnt > 1 && fps > 0) {
                 clear_previous(lines, fps);
             }
-            lines = print_state(in);
+            if (fps >= 0) {
+                lines = print_state(in);
+            }
         }
         cerr << endl;
         cerr << "Done. Executed " << cnt << " instructions.\n";

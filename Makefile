@@ -25,3 +25,15 @@ quine.out: trm
 # for p = move2,1
 qstar.trm: trm
 	(cat q1.trm; echo "R"; cat q1.trm) | ./trm 100000 -1 > $@
+
+# u 1# 1##
+u-1: trm
+	(cat u.trm; echo "R 1# 1##") | ./trm 10000 30
+
+# u(1# 1## 1# 1## 1## + u) = 1#
+u-u:
+	(cat u.trm; echo "R 1# 1## 1# 1## 1##"; cat u.trm) | ./trm 1300000 -1
+
+# u self
+u-self:
+	(cat u.trm; echo "R"; cat self.trm) | ./trm 100000000 -1

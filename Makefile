@@ -21,3 +21,7 @@ quine.trm: trm
 
 quine.out: trm
 	cat quine.trm | ./trm 10000 500 > $@
+
+# for p = move2,1
+qstar.trm: trm
+	(cat q1.trm; echo "R"; cat q1.trm) | ./trm 100000 -1 > $@

@@ -12,3 +12,12 @@ write: trm
 
 move21: trm
 	(cat move21.trm; echo "R# R1111####") | ./trm 1000 20 > move21.out
+
+diag: trm
+	(cat diag.trm; echo "R1111####") | ./trm 1000 20 > diag.out
+
+quine.trm: trm
+	(cat diag.trm; echo "R"; cat diag.trm) | ./trm 10000 500 > $@
+
+quine.out: trm
+	cat quine.trm | ./trm 10000 500 > $@

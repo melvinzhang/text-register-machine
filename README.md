@@ -18,14 +18,14 @@ The program takes two optional arguments.
 
 The first is the maximum number of steps to execute the machine.
 
-The second the frames per second of the animation. A setting of zero means there is no animation.
+The second is the frames per second of the animation. A setting of zero means there is no animation. A negative number disables the animation.
 
 The default is 1000 steps with no animation.
 
-## Running the self progam, a quine
+## Generating the self progam, a quine
 
 ```
-make self
+make self.trm
 ```
 
 ## License

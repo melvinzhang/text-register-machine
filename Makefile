@@ -12,6 +12,7 @@ move21: trm
 diag: trm
 	(cat diag.trm; echo "R1111####") | ./trm 1000 20 > diag.out
 
+# quine generated from diag
 self.trm: trm
 	(cat diag.trm; echo "R"; cat diag.trm) | ./trm 10000 500 > $@
 
@@ -19,12 +20,14 @@ self.out: trm
 	cat self.trm | ./trm 10000 500 > $@
 	diff self.trm self.out
 
+# quine generated from Second Recursion Theorem
 # for p = move2,1
 qstar.trm: trm
 	(cat q1.trm; echo "R"; cat q1.trm) | ./trm 100000 -1 > $@
 
 qstar.out: trm
 	cat qstar.trm | ./trm 100000 -1 > $@
+	diff qstar.trm qstar.out
 
 # u 1# 1##
 u-1: trm
